@@ -1,13 +1,13 @@
 import socket
 import os
 
-PERSISTENT = False
+PERSISTENT = True
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 host = '127.0.0.1'
-port = 12345
+port = 8080
 server.bind((host, port))
 
 server.listen(5)
@@ -74,8 +74,7 @@ while True:
                     f"HTTP/1.1 {status}\r\n"
                     f"Content-Type: {content_type}\r\n"
                     f"Content-Length: {len(response_body)}\r\n"
-
-            )
+                )
             
             if not PERSISTENT:
                 headers += "Connection: close\r\n"
