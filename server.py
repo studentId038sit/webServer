@@ -45,6 +45,10 @@ while True:
 
             request_lines = request.split('\n')[0]
             path = request_lines.split(' ')[1]
+
+            print(request_lines)
+            print(path)
+            print("hello")
             
 
             if path == '/':
@@ -53,6 +57,7 @@ while True:
                 status = "200 OK"
             elif path == f'{path}':
                 file_name = path.split('/')[1]
+                print(file_name)
                 if os.path.exists(f"{file_name}"):
                     with open(f"{file_name}", 'rb') as f:
                         response_body = f.read()

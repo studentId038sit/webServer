@@ -4,7 +4,7 @@ import os
 PERSISTENT = True
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 40)
 
 host = '127.0.0.1'
 port = 8080
@@ -45,6 +45,10 @@ while True:
 
             request_lines = request.split('\n')[0]
             path = request_lines.split(' ')[1]
+
+            print(request_lines)
+            print(path)
+            print("hello")
             
 
             if path == '/':
@@ -53,6 +57,7 @@ while True:
                 status = "200 OK"
             elif path == f'{path}':
                 file_name = path.split('/')[1]
+                print(file_name)
                 if os.path.exists(f"{file_name}"):
                     with open(f"{file_name}", 'rb') as f:
                         response_body = f.read()
@@ -74,7 +79,8 @@ while True:
                     f"HTTP/1.1 {status}\r\n"
                     f"Content-Type: {content_type}\r\n"
                     f"Content-Length: {len(response_body)}\r\n"
-                )
+
+            )
             
             if not PERSISTENT:
                 headers += "Connection: close\r\n"

@@ -1,29 +1,36 @@
 import socket
 
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+def send_request(method, path, body=None):
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    host = "127.0.0.1"
+    port = 8080
+    client_socket.connect((host, port))
 
-host = "www.google.com"
-port = 80
-client_socket.connect((host, port))
+    headers = (
+        f"{method} {path} HTTP/1.1/\r\n"
+        f"Host:{host}\r\n"
+        f"Connection: keep-alive\r\n"
+    )
 
-request = (
-    "GET / HTTP/1.1\r\n"
-    f"Host: {host}\r\n"
-    "Connection: close\r\n"
-    "\r\n"
-)
+    if method == "POST":
+        headers += f"Content-Length: {len(body)}\r\n"
+    headers += '\r\n'
+    request = headers.encode()
 
-client_socket.send(request.encode())
+    if body:
+        request += body.encode()
 
-response = ""
-while True:
-    try:
-        chunk = client_socket.recv(1024)
-        if not chunk:
+    client_socket.send(request)
+
+    response = b" "
+    while True:
+        data = client_socket.recv(4096)
+        if not data:
             break
-        response += chunk.decode()
-    except Exception as e:
-        print(f"Error: {e}")
-        break
+        response += data
 
-print("Respose from google:\n", response)
+    print(f"\n{method} {path} Response:\n", response.decode(errors='ignore'))
+    client_socket.close()
+
+
+send_request("GET", "/")
