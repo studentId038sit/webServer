@@ -18,7 +18,7 @@ html_content = """
 <html>
 <head><title>My Mini Web Server</title></head>
 <body>
-<h1>Yo Dude, Check This Out!</h1>
+<h3>Yo Dude, Check This Out!</h3>
 <p>Here’s a cool image:</p>
 <img src="spongebob-pictures-bhnz9xwx0n4a4k2t.jpg">
 <img src="pic.jpg">
